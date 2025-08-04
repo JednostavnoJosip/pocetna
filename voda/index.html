@@ -1,1 +1,112 @@
-<!DOCTYPE html><html><body><h2>Kalkulator Unosa Vode</h2><p>Ovdje ide kalkulator unosa vode.</p></body></html>
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koliko vode trebaš dnevno?</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
+      background-image: url('https://www.transparenttextures.com/patterns/water-color.png');
+      background-repeat: repeat;
+      color: #01579b;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #0288d1;
+    }
+
+    label {
+      display: block;
+      margin: 1rem 0 0.25rem;
+      font-weight: bold;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid #90caf9;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 1.5rem;
+      background-color: #0288d1;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 2rem;
+      background-color: #e1f5fe;
+      padding: 1rem;
+      border-left: 5px solid #0288d1;
+      border-radius: 0.5rem;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Koliko vode trebaš dnevno?</h1>
+
+    <label for="weight">Tvoja težina (kg):</label>
+    <input type="number" id="weight" placeholder="npr. 70" />
+
+    <label for="exercise">Trajanje treninga (min):</label>
+    <input type="number" id="exercise" placeholder="npr. 45" />
+
+    <label for="calories">Unos kalorija (opcionalno):</label>
+    <input type="number" id="calories" placeholder="npr. 2200" />
+
+    <button onclick="calculateWaterIntake()">Izračunaj</button>
+
+    <div id="result" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    function calculateWaterIntake() {
+      const weight = parseFloat(document.getElementById("weight").value);
+      const exercise = parseFloat(document.getElementById("exercise").value) || 0;
+      const calories = parseFloat(document.getElementById("calories").value);
+
+      if (!weight || weight <= 0) {
+        alert("Molim te unesi ispravnu težinu.");
+        return;
+      }
+
+      const base = weight * 35;
+      const extra = exercise * 12;
+      const totalMl = base + extra;
+      const fromCalories = calories ? calories : 0;
+      const finalMl = Math.max(totalMl, fromCalories);
+      const finalLitres = (finalMl / 1000).toFixed(2);
+
+      document.getElementById("result").style.display = "block";
+      document.getElementById("result").innerHTML = `
+        💧 <strong>Tvoja preporučena količina tekućine za danas:</strong><br />
+        <strong>${finalLitres} L</strong> (cca ${(finalLitres * 4).toFixed(0)} čaša po 2,5 dcl)<br /><br />
+        👉 Ciljaj da barem 2/3 ove količine unosiš kroz vodu i napitke bez šećera. Ako treniraš – pijenje unaprijed je zlata vrijedno.
+      `;
+    }
+  </script>
+</body>
+</html>
