@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hodaj i tope se kalorije 🔥</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fffbea;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #e6a800;
+    }
+    h2 {
+      color: #cc8500;
+      margin-top: 30px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #ffd54f;
+      color: #000;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #ffca28;
+    }
+    .result {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+    #reset {
+      background-color: #f57f17;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hodaj i tope se kalorije 🔥</h1>
+
+    <section>
+      <h2>Potrošnja kalorija – broj koraka</h2>
+      <label for="weight1">Tvoja težina (kg):</label>
+      <input type="number" id="weight1" placeholder="npr. 75">
+
+      <label for="steps">Broj koraka:</label>
+      <input type="number" id="steps" placeholder="npr. 10000">
+
+      <label for="intensity1">Brzina hoda:</label>
+      <select id="intensity1">
+        <option value="0.00035">Sporo</option>
+        <option value="0.0004" selected>Umjereno</option>
+        <option value="0.00045">Brže</option>
+      </select>
+
+      <button onclick="calculateSteps()">Izračunaj</button>
+      <div id="result1" class="result"></div>
+    </section>
+
+    <section>
+      <h2>Potrošnja kalorija – hodanje po vremenu</h2>
+      <label for="weight2">Tvoja težina (kg):</label>
+      <input type="number" id="weight2" placeholder="npr. 75">
+
+      <label for="duration">Trajanje hodanja (min):</label>
+      <input type="number" id="duration" placeholder="npr. 30">
+
+      <label for="intensity2">Brzina hoda:</label>
+      <select id="intensity2">
+        <option value="2">Lagano (3.2 km/h)</option>
+        <option value="3.3" selected>Umjereno (4.8 km/h)</option>
+        <option value="3.8">Brže (5.6 km/h)</option>
+        <option value="4.3">Brzo (6.4 km/h)</option>
+      </select>
+
+      <button onclick="calculateTime()">Izračunaj</button>
+      <div id="result2" class="result"></div>
+    </section>
+
+    <button id="reset" onclick="resetAll()">Resetiraj sve</button>
+  </div>
+
+  <script>
+    function calculateSteps() {
+      const weight = parseFloat(document.getElementById('weight1').value);
+      const steps = parseInt(document.getElementById('steps').value);
+      const factor = parseFloat(document.getElementById('intensity1').value);
+
+      if (isNaN(weight) || isNaN(steps)) {
+        document.getElementById('result1').textContent = "Molimo unesi sve podatke.";
+        return;
+      }
+
+      const calories = (steps * weight * factor).toFixed(2);
+      document.getElementById('result1').textContent = `Procijenjena potrošnja: ${calories} kcal 🔥`;
+    }
+
+    function calculateTime() {
+      const weight = parseFloat(document.getElementById('weight2').value);
+      const duration = parseFloat(document.getElementById('duration').value);
+      const met = parseFloat(document.getElementById('intensity2').value);
+
+      if (isNaN(weight) || isNaN(duration)) {
+        document.getElementById('result2').textContent = "Molimo unesi sve podatke.";
+        return;
+      }
+
+      const calories = ((met * 3.5 * weight) / 200 * duration).toFixed(2);
+      document.getElementById('result2').textContent = `Procijenjena potrošnja: ${calories} kcal 🚶‍♂️`;
+    }
+
+    function resetAll() {
+      document.querySelectorAll('input').forEach(input => input.value = '');
+      document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+      document.getElementById('result1').textContent = '';
+      document.getElementById('result2').textContent = '';
+    }
+  </script>
+</body>
+</html>
